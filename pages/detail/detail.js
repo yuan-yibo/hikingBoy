@@ -201,25 +201,53 @@ Page({
       data: text,
       success: () => {
         if (imageUrl) {
-          // 保存图片到相册
-          wx.saveImageToPhotosAlbum({
-            filePath: imageUrl,
-            success: () => {
-              this.setData({ showContentModal: false })
-              this.showShareGuide(shareContent.platformName)
-            },
-            fail: (err) => {
-              if (err.errMsg.includes('auth deny')) {
-                this.requestPhotoAlbumPermission()
-              } else {
+          // 判断是网络图片还是本地图片
+          if (imageUrl.startsWith('http')) {
+            // 网络图片需要先下载
+            wx.showLoading({ title: '保存图片中...' })
+            wx.downloadFile({
+              url: imageUrl,
+              success: (res) => {
+                wx.hideLoading()
+                if (res.statusCode === 200) {
+                  this.saveImageToAlbum(res.tempFilePath, shareContent.platformName)
+                } else {
+                  this.setData({ showContentModal: false })
+                  this.showShareGuide(shareContent.platformName)
+                }
+              },
+              fail: () => {
+                wx.hideLoading()
                 this.setData({ showContentModal: false })
                 this.showShareGuide(shareContent.platformName)
               }
-            }
-          })
+            })
+          } else {
+            // 本地图片直接保存
+            this.saveImageToAlbum(imageUrl, shareContent.platformName)
+          }
         } else {
           this.setData({ showContentModal: false })
           this.showShareGuide(shareContent.platformName)
+        }
+      }
+    })
+  },
+
+  // 保存图片到相册
+  saveImageToAlbum(filePath, platformName) {
+    wx.saveImageToPhotosAlbum({
+      filePath: filePath,
+      success: () => {
+        this.setData({ showContentModal: false })
+        this.showShareGuide(platformName)
+      },
+      fail: (err) => {
+        if (err.errMsg.includes('auth deny')) {
+          this.requestPhotoAlbumPermission()
+        } else {
+          this.setData({ showContentModal: false })
+          this.showShareGuide(platformName)
         }
       }
     })
@@ -283,45 +311,87 @@ Page({
     wx.setClipboardData({
       data: shareText,
       success: () => {
-        // 保存图片到相册
-        wx.saveImageToPhotosAlbum({
-          filePath: imagePath,
-          success: () => {
-            wx.showModal({
-              title: '📱 准备分享',
-              content: `✅ 文案已复制
+        // 判断是网络图片还是本地图片
+        if (imagePath.startsWith('http')) {
+          // 网络图片需要先下载
+          wx.showLoading({ title: '保存图片中...' })
+          wx.downloadFile({
+            url: imagePath,
+            success: (res) => {
+              wx.hideLoading()
+              if (res.statusCode === 200) {
+                this.doSaveImageAndShowGuide(res.tempFilePath, shareText)
+              } else {
+                this.showShareGuideWithText(shareText)
+              }
+            },
+            fail: () => {
+              wx.hideLoading()
+              this.showShareGuideWithText(shareText)
+            }
+          })
+        } else {
+          // 本地图片直接保存
+          this.doSaveImageAndShowGuide(imagePath, shareText)
+        }
+      }
+    })
+  },
+
+  // 执行保存图片并显示引导
+  doSaveImageAndShowGuide(filePath, shareText) {
+    wx.saveImageToPhotosAlbum({
+      filePath: filePath,
+      success: () => {
+        wx.showModal({
+          title: '📱 准备分享',
+          content: `✅ 文案已复制
 ✅ 图片已保存到相册
 
 ${shareText}
 
 请退出小程序，打开微信朋友圈，粘贴文案并选择图片发布吧～`,
-              showCancel: false,
-              confirmText: '我知道了',
-              confirmColor: '#FF6B9D'
-            })
-          },
-          fail: (err) => {
-            if (err.errMsg.includes('auth deny')) {
-              wx.showModal({
-                title: '需要授权',
-                content: '需要您授权保存图片到相册，才能分享到朋友圈哦~',
-                confirmText: '去授权',
-                confirmColor: '#FF6B9D',
-                success: (modalRes) => {
-                  if (modalRes.confirm) {
-                    wx.openSetting()
-                  }
-                }
-              })
-            } else {
-              wx.showToast({
-                title: '图片保存失败',
-                icon: 'none'
-              })
-            }
-          }
+          showCancel: false,
+          confirmText: '我知道了',
+          confirmColor: '#FF6B9D'
         })
+      },
+      fail: (err) => {
+        if (err.errMsg.includes('auth deny')) {
+          wx.showModal({
+            title: '需要授权',
+            content: '需要您授权保存图片到相册，才能分享到朋友圈哦~',
+            confirmText: '去授权',
+            confirmColor: '#FF6B9D',
+            success: (modalRes) => {
+              if (modalRes.confirm) {
+                wx.openSetting()
+              }
+            }
+          })
+        } else {
+          wx.showToast({
+            title: '图片保存失败',
+            icon: 'none'
+          })
+        }
       }
+    })
+  },
+
+  // 显示分享引导（仅文案）
+  showShareGuideWithText(shareText) {
+    wx.showModal({
+      title: '📱 准备分享',
+      content: `✅ 文案已复制
+❌ 图片保存失败
+
+${shareText}
+
+请退出小程序，打开微信朋友圈粘贴文案，手动选择图片发布吧～`,
+      showCancel: false,
+      confirmText: '我知道了',
+      confirmColor: '#FF6B9D'
     })
   },
 

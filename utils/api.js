@@ -326,6 +326,74 @@ function generateShareContent(recordId, platform) {
   })
 }
 
+// ========== 文件上传相关 API ==========
+
+/**
+ * 上传单张图片到OSS
+ * @param {string} filePath - 本地文件路径
+ * @returns {Promise<string>} 图片URL
+ */
+function uploadImage(filePath) {
+  return new Promise((resolve, reject) => {
+    const userId = getUserId()
+    
+    wx.uploadFile({
+      url: BASE_URL + '/upload/image',
+      filePath: filePath,
+      name: 'file',
+      header: {
+        'X-User-Id': userId
+      },
+      success: (res) => {
+        if (res.statusCode >= 200 && res.statusCode < 300) {
+          try {
+            const data = JSON.parse(res.data)
+            if (data.code === 0) {
+              resolve(data.data)
+            } else {
+              reject(data)
+            }
+          } catch (e) {
+            reject({ message: '解析响应失败' })
+          }
+        } else {
+          reject({ message: '上传失败', statusCode: res.statusCode })
+        }
+      },
+      fail: (err) => {
+        console.error('图片上传失败:', err)
+        reject(err)
+      }
+    })
+  })
+}
+
+/**
+ * 批量上传图片到OSS
+ * @param {string[]} filePaths - 本地文件路径数组
+ * @returns {Promise<string[]>} 图片URL数组
+ */
+async function uploadImages(filePaths) {
+  const urls = []
+  for (const filePath of filePaths) {
+    const url = await uploadImage(filePath)
+    urls.push(url)
+  }
+  return urls
+}
+
+/**
+ * 删除OSS上的图片
+ * @param {string} url - 图片URL
+ */
+function deleteImage(url) {
+  return request({
+    url: '/upload/image',
+    method: 'DELETE',
+    data: { url }
+  })
+}
+
 /**
  * 转换后端数据格式为前端格式
  */
@@ -387,5 +455,8 @@ module.exports = {
   approveApplication,
   getSharePlatforms,
   generateShareContent,
+  uploadImage,
+  uploadImages,
+  deleteImage,
   BASE_URL
 }

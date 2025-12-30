@@ -180,17 +180,29 @@ App({
     if (callback) callback(userId)
   },
     
-  // 上传文件（暂时保留本地路径，后续可对接对象存储）
+  // 上传文件到OSS
   uploadFile(filePath, callback) {
-    // 简化处理：直接返回本地路径
-    // 实际生产环境应对接OSS/COS等对象存储
-    if (callback) callback(true, filePath)
+    api.uploadImage(filePath).then(url => {
+      if (callback) callback(true, url)
+    }).catch(err => {
+      console.error('上传文件失败:', err)
+      if (callback) callback(false, err)
+    })
   },
   
-  // 批量上传文件
+  // 批量上传文件到OSS
   uploadFiles(filePaths, callback) {
-    // 简化处理：直接返回本地路径列表
-    if (callback) callback(true, filePaths)
+    if (!filePaths || filePaths.length === 0) {
+      if (callback) callback(true, [])
+      return
+    }
+    
+    api.uploadImages(filePaths).then(urls => {
+      if (callback) callback(true, urls)
+    }).catch(err => {
+      console.error('批量上传文件失败:', err)
+      if (callback) callback(false, err)
+    })
   },
   
   // 获取当前主题
