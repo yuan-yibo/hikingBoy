@@ -1,0 +1,45 @@
+<!--pages/settings/settings.wxml-->
+<view class="container">
+  <!-- 主题风格 -->
+  <view class="theme-section">
+    <view class="section-title">
+      <text class="title-icon">🎨</text>
+      <text class="title-text">主题风格</text>
+    </view>
+    <view class="theme-selector">
+      <view 
+        wx:for="{{themeList}}" 
+        wx:key="key"
+        class="theme-item {{currentTheme === item.key ? 'active' : ''}}"
+        bindtap="selectTheme"
+        data-theme="{{item.key}}"
+        style="background: {{item.gradient}};"
+      >
+        <view class="theme-name">{{item.name}}</view>
+        <view class="theme-check" wx:if="{{currentTheme === item.key}}">✓</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 关于 -->
+  <view class="about-section">
+    <view class="section-title">
+      <text class="title-icon">ℹ️</text>
+      <text class="title-text">关于</text>
+    </view>
+    <view class="about-card">
+      <view class="about-item">
+        <view class="about-label">应用名称</view>
+        <view class="about-value">亲子爬山记</view>
+      </view>
+      <view class="about-item">
+        <view class="about-label">版本号</view>
+        <view class="about-value">v1.0.0</view>
+      </view>
+      <view class="about-item">
+        <view class="about-label">说明</view>
+        <view class="about-desc">记录与孩子每一次爬山的美好时光 🏔️💕</view>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,110 @@
+<!--pages/add/add.wxml-->
+<view class="container">
+  <view class="form-container">
+    <!-- 山名输入 -->
+    <view class="form-item">
+      <view class="label">🏔️ 山名</view>
+      <input 
+        class="input" 
+        placeholder="例如：香山、泰山..."
+        value="{{mountainName}}"
+        bindinput="onMountainNameInput"
+        placeholder-class="placeholder"
+      />
+    </view>
+
+    <!-- 日期选择 -->
+    <view class="form-item">
+      <view class="label">📅 日期</view>
+      <picker 
+        mode="date" 
+        value="{{date}}" 
+        bindchange="onDateChange"
+        class="picker"
+      >
+        <view class="picker-value">{{date || '请选择日期'}}</view>
+      </picker>
+    </view>
+
+    <!-- 公里数输入 -->
+    <view class="form-item">
+      <view class="label">📏 公里数</view>
+      <input 
+        class="input" 
+        type="digit"
+        placeholder="例如：5.2"
+        value="{{distance}}"
+        bindinput="onDistanceInput"
+        placeholder-class="placeholder"
+      />
+    </view>
+
+    <!-- 时长输入 -->
+    <view class="form-item">
+      <view class="label">⏱️ 时长</view>
+      <input 
+        class="input" 
+        type="digit"
+        placeholder="例如：2.5 （单位：小时）"
+        value="{{duration}}"
+        bindinput="onDurationInput"
+        placeholder-class="placeholder"
+      />
+    </view>
+
+    <!-- 天气选择 -->
+    <view class="form-item">
+      <view class="label">🌤️ 天气</view>
+      <view class="weather-options">
+        <view 
+          wx:for="{{weatherOptions}}" 
+          wx:key="value"
+          class="weather-option {{weather === item.value ? 'active' : ''}}"
+          bindtap="selectWeather"
+          data-value="{{item.value}}"
+          data-icon="{{item.icon}}"
+        >
+          <text class="weather-icon">{{item.icon}}</text>
+          <text class="weather-text">{{item.label}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 照片上传 -->
+    <view class="form-item">
+      <view class="label">📷 照片</view>
+      <view class="photo-upload-container">
+        <view wx:for="{{photos}}" wx:key="index" class="photo-item">
+          <image class="photo" src="{{item}}" mode="aspectFill"></image>
+          <view class="photo-delete" bindtap="deletePhoto" data-index="{{index}}">✕</view>
+        </view>
+        <view class="photo-add" bindtap="choosePhoto" wx:if="{{photos.length < 9}}">
+          <text class="add-icon">📷</text>
+          <text class="add-text">添加照片</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 笔记输入 -->
+    <view class="form-item">
+      <view class="label">📝 记录</view>
+      <textarea 
+        class="textarea" 
+        placeholder="记录宝贝的表现、有趣的事情..."
+        value="{{notes}}"
+        bindinput="onNotesInput"
+        placeholder-class="placeholder"
+        maxlength="500"
+        show-confirm-bar="{{false}}"
+      />
+      <view class="char-count">{{notes.length}}/500</view>
+    </view>
+
+    <!-- 保存按钮 -->
+    <view class="btn-container">
+      <button class="btn-save" bindtap="saveRecord" style="background: linear-gradient(135deg, {{themeColors.primary}} 0%, {{themeColors.primaryLight}} 100%); box-shadow: 0 12rpx 48rpx {{themeColors.shadow}};">
+        {{isEdit ? '💾 保存修改' : '✨ 保存记录'}}
+      </button>
+    </view>
+  </view>
+</view>

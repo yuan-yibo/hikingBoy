@@ -1,0 +1,152 @@
+<!--pages/detail/detail.wxml-->
+<view class="container">
+  <!-- 照片轮播 -->
+  <view class="photo-swiper-container" wx:if="{{record.photos && record.photos.length > 0}}">
+    <swiper 
+      class="photo-swiper" 
+      indicator-dots="{{true}}"
+      indicator-color="rgba(255, 255, 255, 0.5)"
+      indicator-active-color="#FF6B9D"
+      autoplay="{{false}}"
+      circular="{{true}}"
+      bindchange="onSwiperChange"
+    >
+      <swiper-item wx:for="{{record.photos}}" wx:key="index">
+        <image class="swiper-image" src="{{item}}" mode="aspectFill" bindtap="previewImage" data-url="{{item}}"></image>
+      </swiper-item>
+    </swiper>
+    <view class="photo-indicator">{{currentPhotoIndex + 1}}/{{record.photos.length}}</view>
+  </view>
+
+  <!-- 无照片占位 -->
+  <view class="no-photo-placeholder" wx:else>
+    <text class="placeholder-icon">🏔️</text>
+  </view>
+
+  <!-- 详情卡片 -->
+  <view class="detail-card">
+    <!-- 山名 -->
+    <view class="mountain-title">
+      <text class="mountain-icon">🏔️</text>
+      <text class="mountain-name">{{record.mountainName}}</text>
+    </view>
+
+    <!-- 信息列表 -->
+    <view class="info-list">
+      <view class="info-item">
+        <view class="info-icon">📅</view>
+        <view class="info-content">
+          <view class="info-label">日期</view>
+          <view class="info-value">{{record.date}}</view>
+        </view>
+      </view>
+
+      <view class="info-item" wx:if="{{record.distance}}">
+        <view class="info-icon">📏</view>
+        <view class="info-content">
+          <view class="info-label">公里数</view>
+          <view class="info-value">{{record.distance}} km</view>
+        </view>
+      </view>
+
+      <view class="info-item" wx:if="{{record.duration}}">
+        <view class="info-icon">⏱️</view>
+        <view class="info-content">
+          <view class="info-label">时长</view>
+          <view class="info-value">{{record.duration}}</view>
+        </view>
+      </view>
+
+      <view class="info-item" wx:if="{{record.weather}}">
+        <view class="info-icon">{{record.weatherIcon}}</view>
+        <view class="info-content">
+          <view class="info-label">天气</view>
+          <view class="info-value">{{record.weather}}</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 笔记 -->
+    <view class="notes-section" wx:if="{{record.notes}}">
+      <view class="notes-title">📝 记录</view>
+      <view class="notes-content">{{record.notes}}</view>
+    </view>
+  </view>
+
+  <!-- 底部操作栏 -->
+  <view class="bottom-actions">
+    <button class="action-btn share-btn" bindtap="showShareModal" style="background: linear-gradient(135deg, #FFA500 0%, #FFB84D 100%);">
+      <image class="btn-icon-img" src="/images/share.png" mode="aspectFit"></image>
+      <text class="btn-text">分享</text>
+    </button>
+    <button class="action-btn edit-btn" bindtap="editRecord" style="background: linear-gradient(135deg, {{themeColors.primary}} 0%, {{themeColors.primaryLight}} 100%); box-shadow: 0 8rpx 24rpx {{themeColors.shadow}};">
+      <text class="btn-icon">✍️</text>
+      <text class="btn-text">编辑</text>
+    </button>
+    <button class="action-btn delete-btn" bindtap="deleteRecord">
+      <text class="btn-icon">🗑</text>
+      <text class="btn-text">删除</text>
+    </button>
+  </view>
+
+  <!-- 分享平台选择弹窗 -->
+  <view wx:if="{{showShareModal}}" class="share-modal-mask" catchtap="hideShareModal">
+    <view class="share-modal" catchtap="stopPropagation">
+      <view class="share-modal-title">选择分享平台</view>
+      <view class="share-modal-desc">用AI生成专属文案，一键分享到不同平台</view>
+      
+      <view class="platform-list">
+        <view 
+          wx:for="{{platforms}}" 
+          wx:key="code" 
+          class="platform-item {{generating && selectedPlatform === item.code ? 'loading' : ''}}"
+          bindtap="selectPlatform"
+          data-platform="{{item.code}}"
+        >
+          <image class="platform-icon-img" src="{{item.icon}}" mode="aspectFit"></image>
+          <view class="platform-info">
+            <view class="platform-name">{{item.name}}</view>
+            <view class="platform-hint" wx:if="{{item.code === 'xiaohongshu'}}">标题+正文+话题</view>
+            <view class="platform-hint" wx:elif="{{item.code === 'moments'}}">简洁温馨的生活记录</view>
+            <view class="platform-hint" wx:else>运动打卡+热门话题</view>
+          </view>
+          <view class="platform-arrow" wx:if="{{!generating || selectedPlatform !== item.code}}">></view>
+          <view class="platform-loading" wx:else>
+            <view class="loading-spinner"></view>
+          </view>
+        </view>
+      </view>
+      
+      <button class="share-modal-close" bindtap="hideShareModal">取消</button>
+    </view>
+  </view>
+
+  <!-- 文案预览弹窗 -->
+  <view wx:if="{{showContentModal}}" class="share-modal-mask" catchtap="hideContentModal">
+    <view class="content-modal" catchtap="stopPropagation">
+      <view class="content-modal-header">
+        <view class="content-platform">{{shareContent.platformName}}</view>
+        <view class="content-title">AI生成文案</view>
+      </view>
+      
+      <!-- 小红书标题 -->
+      <view wx:if="{{shareContent.title}}" class="content-title-section">
+        <view class="section-label">标题</view>
+        <view class="section-text">{{shareContent.title}}</view>
+      </view>
+      
+      <!-- 正文 -->
+      <view class="content-body-section">
+        <view class="section-label">文案</view>
+        <scroll-view scroll-y class="content-scroll">
+          <view class="section-text">{{shareContent.body || shareContent.content}}</view>
+        </scroll-view>
+      </view>
+      
+      <view class="content-modal-actions">
+        <button class="action-regenerate" bindtap="regenerateContent">🔄 重新生成</button>
+        <button class="action-copy" bindtap="copyAndShare">复制并分享</button>
+      </view>
+    </view>
+  </view>
+</view>

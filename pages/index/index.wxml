@@ -1,0 +1,66 @@
+<!--pages/index/index.wxml-->
+<view class="container">
+  <!-- 头部欢迎区 -->
+  <view class="header">
+    <view class="welcome-card" style="background: linear-gradient(135deg, {{themeColors.primary}} 0%, {{themeColors.primaryLight}} 100%);">
+      <view class="welcome-text">🏔️ 和宝贝的爬山时光</view>
+      <view class="welcome-subtitle">记录每一次快乐的旅程</view>
+    </view>
+  </view>
+
+  <!-- 记录列表 -->
+  <view class="records-container">
+    <block wx:if="{{records.length > 0}}">
+      <view 
+        wx:for="{{records}}" 
+        wx:key="_id" 
+        class="record-card {{item.animation ? 'fade-in' : ''}}"
+        bindtap="goToDetail"
+        data-id="{{item._id}}"
+      >
+        <!-- 照片区域 -->
+        <view class="photo-area" wx:if="{{item.photos && item.photos.length > 0}}">
+          <image class="photo" src="{{item.photos[0]}}" mode="aspectFill"></image>
+          <view class="photo-count" wx:if="{{item.photos.length > 1}}">
+            📷 {{item.photos.length}}
+          </view>
+        </view>
+        <view class="photo-area no-photo" wx:else style="background: {{themeColors.cardGradient}};">
+          <text class="no-photo-icon">🏔️</text>
+        </view>
+
+        <!-- 内容区域 -->
+        <view class="content-area">
+          <view class="mountain-name">{{item.mountainName}}</view>
+          <view class="date-time">
+            <text class="icon">📅</text> {{item.date}}
+            <text class="distance" wx:if="{{item.distance}}">📏 {{item.distance}}km</text>
+            <text class="duration" wx:if="{{item.duration}}">⏱️ {{item.duration}}</text>
+          </view>
+          <view class="weather" wx:if="{{item.weather}}">
+            <text class="icon">{{item.weatherIcon}}</text> {{item.weather}}
+          </view>
+          <view class="note-preview" wx:if="{{item.notes}}">{{item.notes}}</view>
+        </view>
+
+        <!-- 操作按钮 -->
+        <view class="action-btns">
+          <view class="edit-btn" catchtap="editRecord" data-id="{{item._id}}">✍️</view>
+          <view class="delete-btn" catchtap="deleteRecord" data-id="{{item._id}}">🗑</view>
+        </view>
+      </view>
+    </block>
+
+    <!-- 空状态 -->
+    <view class="empty-state" wx:else>
+      <view class="empty-icon">🏔️</view>
+      <view class="empty-text">还没有记录哦</view>
+      <view class="empty-subtext">开始记录你和宝贝的爬山时光吧！</view>
+    </view>
+  </view>
+
+  <!-- 浮动添加按钮 -->
+  <view class="fab" bindtap="addRecord" style="background: linear-gradient(135deg, {{themeColors.primary}} 0%, {{themeColors.primaryLight}} 100%); box-shadow: 0 12rpx 48rpx {{themeColors.shadow}};">
+    <text class="fab-icon">➕</text>
+  </view>
+</view>

@@ -1,0 +1,565 @@
+/* pages/stats/stats.wxss */
+.container {
+  min-height: 100vh;
+  padding: 24rpx;
+  padding-bottom: 120rpx;
+}
+
+/* 头部总览 */
+.header-overview {
+  text-align: center;
+  padding: 40rpx 0;
+  animation: fadeIn 0.8s ease-out;
+}
+
+.overview-title {
+  font-size: 48rpx;
+  font-weight: bold;
+  background: linear-gradient(135deg, #FF6B9D 0%, #FF8FB3 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 12rpx;
+}
+
+.overview-subtitle {
+  font-size: 28rpx;
+  color: #999;
+}
+
+/* 统计卡片 */
+.stats-cards {
+  display: flex;
+  gap: 24rpx;
+  margin-bottom: 32rpx;
+}
+
+.stat-card {
+  flex: 1;
+  border-radius: 32rpx;
+  padding: 40rpx 32rpx;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8rpx 32rpx rgba(255, 107, 157, 0.15);
+  animation: scaleIn 0.6s ease-out;
+}
+
+.primary-card {
+  background: linear-gradient(135deg, #FF6B9D 0%, #FF8FB3 100%);
+}
+
+.secondary-card {
+  background: linear-gradient(135deg, #FFA07A 0%, #FFB69E 100%);
+}
+
+.stat-icon {
+  font-size: 64rpx;
+  margin-bottom: 16rpx;
+}
+
+.stat-value {
+  font-size: 72rpx;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 8rpx;
+}
+
+.stat-label {
+  font-size: 28rpx;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.stat-decoration {
+  position: absolute;
+  width: 200rpx;
+  height: 200rpx;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  top: -80rpx;
+  right: -80rpx;
+}
+
+/* 章节标题 */
+.section-title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24rpx;
+}
+
+.title-icon {
+  font-size: 40rpx;
+  margin-right: 12rpx;
+}
+
+.title-text {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+/* 最近活动 */
+.recent-section {
+  margin-bottom: 32rpx;
+  animation: slideUp 0.6s ease-out;
+}
+
+.recent-list {
+  background: white;
+  border-radius: 32rpx;
+  padding: 16rpx;
+  box-shadow: 0 8rpx 32rpx rgba(255, 107, 157, 0.1);
+}
+
+.recent-item {
+  padding: 24rpx;
+  border-radius: 20rpx;
+  margin-bottom: 12rpx;
+  background: linear-gradient(135deg, #FFF5F7 0%, #FFF8FA 100%);
+  transition: all 0.3s;
+}
+
+.recent-item:last-child {
+  margin-bottom: 0;
+}
+
+.recent-item:active {
+  transform: scale(0.98);
+  background: linear-gradient(135deg, #FFE8F0 0%, #FFF0F5 100%);
+}
+
+.recent-date {
+  font-size: 24rpx;
+  color: #999;
+  margin-bottom: 8rpx;
+}
+
+.recent-mountain {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+/* 天气统计 */
+.weather-section {
+  margin-bottom: 32rpx;
+  animation: slideUp 0.8s ease-out;
+}
+
+.weather-chart {
+  background: white;
+  border-radius: 32rpx;
+  padding: 32rpx;
+  box-shadow: 0 8rpx 32rpx rgba(255, 107, 157, 0.1);
+}
+
+.weather-bar-container {
+  margin-bottom: 28rpx;
+}
+
+.weather-bar-container:last-child {
+  margin-bottom: 0;
+}
+
+.weather-label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12rpx;
+}
+
+.weather-icon {
+  font-size: 32rpx;
+  margin-right: 12rpx;
+}
+
+.weather-name {
+  font-size: 28rpx;
+  color: #666;
+  font-weight: 500;
+}
+
+.weather-bar-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.weather-bar {
+  flex: 1;
+  height: 32rpx;
+  background: #F5F5F5;
+  border-radius: 16rpx;
+  overflow: hidden;
+  position: relative;
+}
+
+.weather-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #FF6B9D 0%, #FF8FB3 100%);
+  border-radius: 16rpx;
+  animation: expandWidth 1s ease-out;
+}
+
+.weather-count {
+  font-size: 24rpx;
+  color: #999;
+  min-width: 60rpx;
+  text-align: right;
+}
+
+/* 月度统计 */
+.monthly-section {
+  margin-bottom: 32rpx;
+  animation: slideUp 0.8s ease-out;
+}
+
+.monthly-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.monthly-item {
+  background: white;
+  border-radius: 24rpx;
+  padding: 32rpx;
+  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.08);
+  transition: all 0.3s;
+}
+
+.monthly-item:active {
+  transform: scale(0.98);
+}
+
+.monthly-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24rpx;
+  padding-bottom: 16rpx;
+  border-bottom: 2rpx solid #F0F0F0;
+}
+
+.monthly-month {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.monthly-count {
+  font-size: 28rpx;
+  color: #FF6B9D;
+  background: #FFE8F0;
+  padding: 8rpx 20rpx;
+  border-radius: 20rpx;
+  font-weight: bold;
+}
+
+.monthly-stats {
+  display: flex;
+  gap: 24rpx;
+}
+
+.monthly-stats .stat-item {
+  flex: 1;
+  background: linear-gradient(135deg, #F8F9FA 0%, #FFFFFF 100%);
+  border-radius: 16rpx;
+  padding: 20rpx;
+  text-align: center;
+}
+
+.monthly-stats .stat-icon {
+  font-size: 40rpx;
+  margin-bottom: 8rpx;
+}
+
+.monthly-stats .stat-value {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 4rpx;
+}
+
+.monthly-stats .stat-label {
+  font-size: 22rpx;
+  color: #999;
+}
+
+/* 励志卡片 */
+.motivation-card {
+  background: linear-gradient(135deg, #FFE8F0 0%, #FFF0F5 100%);
+  border-radius: 32rpx;
+  padding: 40rpx;
+  text-align: center;
+  box-shadow: 0 8rpx 32rpx rgba(255, 107, 157, 0.1);
+  animation: bounce 2s infinite;
+  margin-bottom: 32rpx;
+}
+
+.motivation-icon {
+  font-size: 80rpx;
+  margin-bottom: 16rpx;
+}
+
+.motivation-text {
+  font-size: 32rpx;
+  color: #FF6B9D;
+  font-weight: bold;
+  line-height: 1.6;
+}
+
+/* 主题切换 */
+.theme-section {
+  margin-bottom: 32rpx;
+  animation: slideUp 1s ease-out;
+}
+
+.theme-selector {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16rpx;
+}
+
+.theme-item {
+  position: relative;
+  border-radius: 24rpx;
+  padding: 32rpx 24rpx;
+  text-align: center;
+  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.1);
+  transition: all 0.3s;
+  overflow: hidden;
+}
+
+.theme-item:active {
+  transform: scale(0.95);
+}
+
+.theme-item.active {
+  transform: scale(1.05);
+  box-shadow: 0 12rpx 48rpx rgba(0, 0, 0, 0.2);
+}
+
+.theme-item.active::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 4rpx solid white;
+  border-radius: 24rpx;
+  pointer-events: none;
+}
+
+.theme-name {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: white;
+  text-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.2);
+}
+
+.theme-check {
+  position: absolute;
+  top: 8rpx;
+  right: 8rpx;
+  width: 48rpx;
+  height: 48rpx;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #27AE60;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.15);
+}
+
+/* 空状态 */
+.empty-state {
+  text-align: center;
+  padding: 120rpx 0;
+}
+
+.empty-icon {
+  font-size: 160rpx;
+  margin-bottom: 24rpx;
+  opacity: 0.3;
+}
+
+.empty-text {
+  font-size: 32rpx;
+  color: #999;
+  margin-bottom: 12rpx;
+}
+
+.empty-subtext {
+  font-size: 28rpx;
+  color: #BBB;
+}
+
+/* 动画 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes expandWidth {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8rpx);
+  }
+}
+
+/* 山峰列表弹窗 */
+.mountain-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modal-content {
+  width: 90%;
+  max-height: 80vh;
+  background: white;
+  border-radius: 32rpx;
+  overflow: hidden;
+  animation: scaleIn 0.3s ease-out;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 32rpx;
+  border-bottom: 2rpx solid #F0F0F0;
+}
+
+.modal-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.modal-close {
+  width: 60rpx;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48rpx;
+  color: #999;
+  background: #F5F5F5;
+  border-radius: 50%;
+  transition: all 0.3s;
+}
+
+.modal-close:active {
+  background: #E0E0E0;
+  transform: scale(0.9);
+}
+
+.modal-body {
+  padding: 32rpx;
+  max-height: calc(80vh - 120rpx);
+  overflow-y: auto;
+}
+
+.mountain-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16rpx;
+}
+
+.mountain-badge {
+  position: relative;
+  border-radius: 24rpx;
+  padding: 32rpx 20rpx;
+  text-align: center;
+  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.1);
+  transition: all 0.3s;
+  overflow: hidden;
+}
+
+.mountain-badge:active {
+  transform: scale(0.95);
+}
+
+.mountain-badge::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.1);
+  pointer-events: none;
+}
+
+.badge-icon {
+  font-size: 48rpx;
+  margin-bottom: 12rpx;
+  filter: drop-shadow(0 2rpx 8rpx rgba(0, 0, 0, 0.2));
+}
+
+.badge-name {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 8rpx;
+  text-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.3);
+  word-break: break-all;
+}
+
+.badge-count {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.2);
+  padding: 4rpx 16rpx;
+  border-radius: 20rpx;
+  display: inline-block;
+  backdrop-filter: blur(10rpx);
+}

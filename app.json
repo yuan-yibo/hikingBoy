@@ -1,0 +1,52 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/add/add",
+    "pages/detail/detail",
+    "pages/stats/stats",
+    "pages/team/team",
+    "pages/team-detail/team-detail",
+    "pages/settings/settings"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#FF6B9D",
+    "navigationBarTitleText": "亲子爬山记",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#FFF5F7",
+    "enablePullDownRefresh": false
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#FF6B9D",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "📝 记录"
+      },
+      {
+        "pagePath": "pages/team/team",
+        "text": "团队",
+        "iconPath": "images/team.png",
+        "selectedIconPath": "images/team.png"
+      },
+      {
+        "pagePath": "pages/stats/stats",
+        "text": "📊 统计"
+      },
+      {
+        "pagePath": "pages/settings/settings",
+        "text": "⚙️ 设置"
+      }
+    ]
+  },
+  "permission": {
+    "scope.writePhotosAlbum": {
+      "desc": "您需要授权保存图片到相册，以便分享到朋友圈"
+    }
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

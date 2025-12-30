@@ -1,0 +1,105 @@
+<view class="container">
+  <!-- 加载中 -->
+  <view wx:if="{{loading}}" class="loading">
+    <text>加载中...</text>
+  </view>
+
+  <block wx:else>
+    <!-- 团队信息卡片 -->
+    <view class="team-header">
+      <view class="team-name">{{team.name}}</view>
+      <view class="team-desc">{{team.description || '暂无描述'}}</view>
+      
+      <!-- 邀请码 -->
+      <view class="invite-section">
+        <view class="invite-label">邀请码</view>
+        <view class="invite-code-wrapper">
+          <text class="invite-code">{{team.inviteCode}}</text>
+          <button class="btn-copy" bindtap="copyInviteCode">复制</button>
+          <button wx:if="{{isOwner}}" class="btn-refresh" bindtap="regenerateCode">刷新</button>
+        </view>
+      </view>
+
+      <view class="team-stats">
+        <view class="stat-item">
+          <text class="stat-value">{{members.length}}</text>
+          <text class="stat-label">成员</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-value">{{records.length}}</text>
+          <text class="stat-label">记录</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 标签栏 -->
+    <view class="tab-bar">
+      <view 
+        class="tab-item {{activeTab === 'records' ? 'active' : ''}}" 
+        bindtap="switchTab"
+        data-tab="records"
+      >
+        徒步记录
+      </view>
+      <view 
+        class="tab-item {{activeTab === 'members' ? 'active' : ''}}" 
+        bindtap="switchTab"
+        data-tab="members"
+      >
+        团队成员
+      </view>
+    </view>
+
+    <!-- 徒步记录列表 -->
+    <view wx:if="{{activeTab === 'records'}}" class="content-section">
+      <view wx:if="{{records.length === 0}}" class="empty-list">
+        <text>暂无记录</text>
+      </view>
+      <view wx:else class="record-list">
+        <view 
+          wx:for="{{records}}" 
+          wx:key="id" 
+          class="record-card"
+          bindtap="goToRecordDetail"
+          data-id="{{item.id}}"
+        >
+          <view class="record-info">
+            <view class="record-header">
+              <text class="record-mountain">{{item.mountainName}}</text>
+              <text class="record-owner">by {{item.ownerName || '未知'}}</text>
+            </view>
+            <view class="record-meta">
+              <text>📅 {{item.date}}</text>
+              <text wx:if="{{item.distance}}">📏 {{item.distance}}km</text>
+            </view>
+          </view>
+          <view class="record-arrow">></view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 成员列表 -->
+    <view wx:if="{{activeTab === 'members'}}" class="content-section">
+      <view class="member-list">
+        <view wx:for="{{members}}" wx:key="id" class="member-card">
+          <view class="member-avatar">
+            <image wx:if="{{item.avatar}}" src="{{item.avatar}}" mode="aspectFill"/>
+            <text wx:else class="avatar-placeholder">👤</text>
+          </view>
+          <view class="member-info">
+            <text class="member-name">{{item.nickname || '成员'}}</text>
+            <text class="member-role {{item.role}}">
+              {{item.role === 'OWNER' ? '创建者' : (item.role === 'ADMIN' ? '管理员' : '成员')}}
+            </text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 操作按钮 -->
+    <view class="action-section">
+      <button wx:if="{{!isOwner}}" class="btn-leave" bindtap="leaveTeam">退出团队</button>
+      <button wx:if="{{isOwner}}" class="btn-delete" bindtap="deleteTeam">解散团队</button>
+    </view>
+  </block>
+</view>

@@ -1,0 +1,85 @@
+<view class="container" style="background: {{themeColors.background || '#FFF5F7'}}">
+  <!-- 操作按钮 -->
+  <view class="action-bar">
+    <button class="btn-create" style="background: linear-gradient(135deg, {{themeColors.primary || '#FF6B9D'}}, {{themeColors.primaryLight || '#FF8E53'}})" bindtap="showCreateTeam">创建团队</button>
+    <button class="btn-join" style="color: {{themeColors.primary || '#FF6B9D'}}; border-color: {{themeColors.primary || '#FF6B9D'}}" bindtap="showJoinTeam">加入团队</button>
+  </view>
+
+  <!-- 加载中 -->
+  <view wx:if="{{loading}}" class="loading">
+    <text>加载中...</text>
+  </view>
+
+  <!-- 空状态 -->
+  <view wx:elif="{{teams.length === 0}}" class="empty">
+    <text class="empty-icon">👥</text>
+    <text class="empty-text">暂无团队</text>
+    <text class="empty-hint">创建或加入一个团队，与家人朋友分享徒步记录</text>
+  </view>
+
+  <!-- 团队列表 -->
+  <view wx:else class="team-list">
+    <view 
+      wx:for="{{teams}}" 
+      wx:key="id" 
+      class="team-card"
+      style="box-shadow: 0 4rpx 20rpx {{themeColors.shadow || 'rgba(255, 107, 157, 0.1)'}}"
+      bindtap="goToTeamDetail"
+      data-id="{{item.id}}"
+    >
+      <view class="team-info">
+        <text class="team-name">{{item.name}}</text>
+        <text class="team-desc">{{item.description || '暂无描述'}}</text>
+        <view class="team-meta">
+          <text class="meta-item">👤 {{item.ownerName || '创建者'}}</text>
+          <text class="meta-item">👥 {{item.memberCount || 1}}人</text>
+        </view>
+      </view>
+      <view class="team-arrow">></view>
+    </view>
+  </view>
+
+  <!-- 创建团队弹窗 -->
+  <view wx:if="{{showCreateModal}}" class="modal-mask" catchtap="hideCreateModal">
+    <view class="modal-content" catchtap="stopPropagation">
+      <view class="modal-title">创建团队</view>
+      <input 
+        class="modal-input" 
+        placeholder="团队名称" 
+        value="{{newTeamName}}" 
+        bindinput="onTeamNameInput"
+        maxlength="20"
+      />
+      <textarea 
+        class="modal-textarea" 
+        placeholder="团队描述（选填）" 
+        value="{{newTeamDesc}}" 
+        bindinput="onTeamDescInput"
+        maxlength="100"
+      />
+      <view class="modal-buttons">
+        <button class="modal-btn cancel" bindtap="hideCreateModal">取消</button>
+        <button class="modal-btn confirm" style="background: linear-gradient(135deg, {{themeColors.primary || '#FF6B9D'}}, {{themeColors.primaryLight || '#FF8E53'}})" bindtap="createTeam">创建</button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 加入团队弹窗 -->
+  <view wx:if="{{showJoinModal}}" class="modal-mask" catchtap="hideJoinModal">
+    <view class="modal-content" catchtap="stopPropagation">
+      <view class="modal-title">加入团队</view>
+      <input 
+        class="modal-input invite-code" 
+        placeholder="请输入邀请码" 
+        value="{{inviteCode}}" 
+        bindinput="onInviteCodeInput"
+        maxlength="8"
+      />
+      <view class="modal-hint">邀请码由团队创建者提供，8位字母数字组合</view>
+      <view class="modal-buttons">
+        <button class="modal-btn cancel" bindtap="hideJoinModal">取消</button>
+        <button class="modal-btn confirm" style="background: linear-gradient(135deg, {{themeColors.primary || '#FF6B9D'}}, {{themeColors.primaryLight || '#FF8E53'}})" bindtap="joinTeam">加入</button>
+      </view>
+    </view>
+  </view>
+</view>

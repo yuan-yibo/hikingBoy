@@ -1,0 +1,33 @@
+server:
+  port: 8080
+
+spring:
+  # MySQL 生产环境配置
+  datasource:
+    url: jdbc:mysql://localhost:3306/db_hikingboy?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:root}
+  
+  h2:
+    console:
+      enabled: false
+  
+  sql:
+    init:
+      mode: never
+
+# MyBatis-Plus 配置
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
+  global-config:
+    db-config:
+      id-type: auto
+  type-handlers-package: com.hiking.infrastructure.persistence.typehandler
+
+logging:
+  level:
+    com.hiking: INFO
+    com.baomidou.mybatisplus: WARN
