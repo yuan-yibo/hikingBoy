@@ -34,8 +34,17 @@ App({
   },
   
   globalData: {
-    currentTheme: 'pink',
+    currentTheme: 'green',
     themes: {
+      green: {
+        name: '清新绿',
+        primary: '#07C160',
+        primaryLight: '#10B981',
+        background: '#F5F5F5',
+        backgroundGradient: 'linear-gradient(135deg, #07C160 0%, #10B981 100%)',
+        cardGradient: 'linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%)',
+        shadow: 'rgba(7, 193, 96, 0.3)'
+      },
       pink: {
         name: '甜蜜粉',
         primary: '#FF6B9D',

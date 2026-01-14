@@ -7,12 +7,19 @@ spring:
   application:
     name: hiking-record
   
+  # 文件上传配置
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 100MB
+  
   # 数据源配置
   datasource:
-    url: jdbc:mysql://locammend-db-dev-1.c1ue668o8cg6.us-east-2.rds.amazonaws.com:3306/db_hikingboy?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://47.108.112.10:3306/db_hikingboy?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: admin_dev
-    password: 369Shenjianhero!
+    username: hikingboy
+    password: W@le88131136
   
   # Flyway 数据库版本管理
   flyway:
@@ -52,8 +59,18 @@ logging:
 ai:
   enabled: true
   api-url: https://api.openai.com/v1/chat/completions
-  api-key: ${OPENAI_API_KEY:sk-your-api-key-here}
+  api-key: ${OPENAI_API_KEY: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}
   model: gpt-3.5-turbo
   temperature: 0.8
   max-tokens: 500
   timeout: 30
+
+# 阿里云OSS配置
+aliyun:
+  oss:
+    endpoint: oss-cn-chengdu.aliyuncs.com
+    bucket-name: hikingboy-resources
+    access-key-id: ${ALIYUN_OSS_ACCESS_KEY_ID:LTAI5tMZjkRU1aci4oBisY3A}
+    access-key-secret: ${ALIYUN_OSS_ACCESS_KEY_SECRET:yK2hlUceJwwxwqcyiU4kyWJY5GN7su}
+    # 图片存储目录
+    records-resource-dir: records-resource

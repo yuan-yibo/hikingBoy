@@ -6,6 +6,8 @@ import com.hiking.infrastructure.persistence.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -28,8 +30,8 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public Optional<User> findById(Long id) {
-        return Optional.ofNullable(userMapper.selectById(id));
+    public User findById(Long id) {
+        return userMapper.selectById(id);
     }
 
     @Override
@@ -40,5 +42,43 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public boolean existsByOpenId(String openId) {
         return userMapper.existsByOpenId(openId);
+    }
+    
+    @Override
+    public void incrementPostCount(Long userId) {
+        userMapper.incrementPostCount(userId);
+    }
+    
+    @Override
+    public void decrementPostCount(Long userId) {
+        userMapper.decrementPostCount(userId);
+    }
+    
+    @Override
+    public void incrementFansCount(Long userId) {
+        userMapper.incrementFansCount(userId);
+    }
+    
+    @Override
+    public void decrementFansCount(Long userId) {
+        userMapper.decrementFansCount(userId);
+    }
+    
+    @Override
+    public void incrementFollowingCount(Long userId) {
+        userMapper.incrementFollowingCount(userId);
+    }
+    
+    @Override
+    public void decrementFollowingCount(Long userId) {
+        userMapper.decrementFollowingCount(userId);
+    }
+    
+    @Override
+    public List<User> findByIds(List<Long> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return userMapper.selectBatchIds(ids);
     }
 }

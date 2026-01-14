@@ -1,44 +1,50 @@
 {
   "pages": [
-    "pages/index/index",
-    "pages/add/add",
-    "pages/detail/detail",
-    "pages/stats/stats",
+    "pages/home/home",
+    "pages/record/record",
+    "pages/publish/publish",
+    "pages/message/message",
+    "pages/mine/mine",
+    "pages/post-detail/post-detail",
+    "pages/user-profile/user-profile",
+    "pages/search/search",
     "pages/team/team",
     "pages/team-detail/team-detail",
+    "pages/my-footprint/my-footprint",
+    "pages/my-collection/my-collection",
+    "pages/fans/fans",
+    "pages/following/following",
     "pages/settings/settings"
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#FF6B9D",
-    "navigationBarTitleText": "亲子爬山记",
+    "navigationBarBackgroundColor": "#07C160",
+    "navigationBarTitleText": "亲子徒步",
     "navigationBarTextStyle": "white",
-    "backgroundColor": "#FFF5F7",
-    "enablePullDownRefresh": false
+    "backgroundColor": "#F5F5F5",
+    "enablePullDownRefresh": true
   },
   "tabBar": {
     "color": "#999999",
-    "selectedColor": "#FF6B9D",
+    "selectedColor": "#07C160",
     "backgroundColor": "#ffffff",
     "borderStyle": "white",
     "list": [
       {
-        "pagePath": "pages/index/index",
-        "text": "📝 记录"
+        "pagePath": "pages/home/home",
+        "text": "首页"
       },
       {
-        "pagePath": "pages/team/team",
-        "text": "团队",
-        "iconPath": "images/team.png",
-        "selectedIconPath": "images/team.png"
+        "pagePath": "pages/record/record",
+        "text": "记录"
       },
       {
-        "pagePath": "pages/stats/stats",
-        "text": "📊 统计"
+        "pagePath": "pages/message/message",
+        "text": "消息"
       },
       {
-        "pagePath": "pages/settings/settings",
-        "text": "⚙️ 设置"
+        "pagePath": "pages/mine/mine",
+        "text": "我的"
       }
     ]
   },
